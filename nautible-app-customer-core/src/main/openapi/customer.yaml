@@ -1,0 +1,241 @@
+openapi: 3.0.3
+info:
+  title: nautible-app-customer
+  version: 1.0.0-SNAPSHOT
+servers:
+- url: http://localhost:8080/
+paths:
+  /customer/{customerId}:
+    get:
+      tags:
+        - RestCustomerService
+      operationId: getByCustomerId
+      summary: 顧客取得
+      description: 顧客取得
+      parameters:
+      - name: customerId
+        in: path
+        description: Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestGetByCustomerIdResponse'
+        404:
+          description: not found
+          content: {}
+    delete:
+      tags:
+        - RestCustomerService
+      operationId: delete
+      summary: 顧客削除
+      description: 顧客削除
+      parameters:
+      - name: customerId
+        in: path
+        description: Id
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        204:
+          description: successful operation
+          content: {}
+        404:
+          description: not found
+          content: {}
+  /customer/:
+    get:
+      tags:
+        - RestCustomerService
+      operationId: find
+      summary: 顧客検索
+      description: 顧客検索
+      parameters:
+      - name: name
+        in: query
+        description: 名前
+        schema:
+          type: string
+      - name: nameStartWith
+        in: query
+        description: 名前（前方一致）
+        schema:
+          type: string
+      - name: age
+        in: query
+        description: 年齢
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestFindCustomerResponse'
+        404:
+          description: not found
+          content: {}
+    put:
+      tags:
+        - RestCustomerService
+      operationId: update
+      summary: 顧客更新
+      description: 顧客更新
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestUpdateCustomerRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestUpdateCustomerResponse'
+        404:
+          description: not found
+          content: {}
+    post:
+      tags:
+        - RestCustomerService
+      operationId: create
+      summary: 顧客作成
+      description: 顧客作成
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RestCreateCustomerRequest'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestCreateCustomerResponse'
+        404:
+          description: not found
+          content: {}
+components:
+  schemas:
+    RestCreateCustomerRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: 名前
+          example: customer1
+        age:
+          type: integer
+          description: 年齢
+          format: int32
+          example: 20
+        tel:
+          type: string
+          description: 電話番号
+          example: 03-1234-1234
+        address:
+          $ref: '#/components/schemas/RestAddress'
+    RestUpdateCustomerRequest:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: integer
+          description: Id
+          format: int32
+          example: 123
+        name:
+          type: string
+          description: 名前
+          example: customer1
+        age:
+          type: integer
+          description: 年齢
+          format: int32
+          example: 20
+        tel:
+          type: string
+          description: 電話番号
+          example: 03-1234-1234
+        address:
+          $ref: '#/components/schemas/RestAddress'
+    RestGetByCustomerIdResponse:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/RestCustomer'
+    RestFindCustomerResponse:
+      type: object
+      properties:
+        customers:
+          type: array
+          items:
+            $ref: '#/components/schemas/RestCustomer'
+    RestCreateCustomerResponse:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/RestCustomer'
+    RestUpdateCustomerResponse:
+      type: object
+      properties:
+        customer:
+          $ref: '#/components/schemas/RestCustomer'
+    RestCustomer:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Id
+          format: int32
+          example: 123
+        name:
+          type: string
+          description: 名前
+          example: customer1
+        age:
+          type: integer
+          description: 年齢
+          format: int32
+          example: 20
+        tel:
+          type: string
+          description: 電話番号
+          example: 03-1234-1234
+        address:
+          $ref: '#/components/schemas/RestAddress'
+    RestAddress:
+      type: object
+      properties:
+        zipCode:
+          type: string
+          description: 郵便番号
+          example: "123-4567"
+          pattern: "[0-9]{3}-[0-9]{4}"
+        address1:
+          type: string
+          description: 住所１
+          example: itabashi,itabashi-ku,tokyo
+        address2:
+          type: string
+          description: 住所２
+          example: 1-2-3
+

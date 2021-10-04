@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "jp.co.ogis_ri.nautible.app.customer.api.grpc";
+option java_outer_classname = "CustomerProto";
+option objc_class_prefix = "RAC";
+
+package customer;
+
+// 顧客サービス
+service CustomerService {
+    // 顧客を取得する
+    rpc GetByCustomerId (GrpcGetByCustomerIdRequest) returns (GrpcGetByCustomerIdResponse) {}
+    // 顧客を削除する
+    rpc DeleteByCustomerId (GrpcDeleteByCustomerIdRequest) returns (Empty) {}
+    // 顧客を作成する
+    rpc Create (GrpcCreateCustomerRequest) returns (GrpcCreateCustomerResponse) {}
+    // 顧客を更新する
+    rpc Update (GrpcUpdateCustomerRequest) returns (GrpcUpdateCustomerResponse) {}
+    // 顧客を検索する
+    rpc Find (GrpcFindCustomerRequest) returns (GrpcFindCustomerResponse) {}
+}
+
+// 顧客取得Request
+message GrpcGetByCustomerIdRequest {
+    int32 customerId = 1;
+}
+
+// 顧客取得Reply
+message GrpcGetByCustomerIdResponse {
+    GrpcCustomer customer = 1;
+}
+
+// 顧客削除Request
+message GrpcDeleteByCustomerIdRequest {
+    int32 customerId = 1;
+}
+
+// 顧客作成Request
+message GrpcCreateCustomerRequest {
+    GrpcCustomer customer = 1;
+}
+
+// 顧客作成Reply
+message GrpcCreateCustomerResponse {
+    GrpcCustomer customer = 1;
+}
+
+// 顧客更新Request
+message GrpcUpdateCustomerRequest {
+    GrpcCustomer customer = 1;
+}
+
+// 顧客更新Reply
+message GrpcUpdateCustomerResponse {
+    GrpcCustomer customer = 1;
+}
+
+// 顧客検索Request
+message GrpcFindCustomerRequest {
+    string name = 1;
+    string nameStartWith = 2;
+    int32 age = 3;
+}
+
+// 顧客検索Reply
+message GrpcFindCustomerResponse {
+    repeated GrpcCustomer customers = 1;
+}
+
+// 顧客
+message GrpcCustomer {
+    // Id
+    int32 id = 1;
+    // 名前
+    string name = 2;
+    // 年齢
+    int32 age = 3;
+    // 電話番号
+    string tel = 4;
+    // 住所
+    GrpcAddress address = 5;
+}
+
+// 住所
+message GrpcAddress {
+    // 郵便番号
+    string zipCode = 1;
+    // 住所１
+    string address1 = 2;
+    // 住所２
+    string address2 = 3;
+}
+// Empty
+message Empty {}
