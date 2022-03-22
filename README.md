@@ -1,4 +1,4 @@
-# nautible-app-customer project
+# nautible-app-ms-customer project
 このドキュメントには顧客アプリケーションについて記載する。
 アプリケーション共通の内容については[こちら](https://github.com/nautible/docs/app-common/README.md)を参照。
 Quarkusアプリケーション共通の内容については[こちら](https://github.com/nautible/docs/quarkus/README.md)を参照。
@@ -30,5 +30,5 @@ Quarkusアプリケーション共通の内容については[こちら](https:/
 * [kubectlのインストール](https://kubernetes.io/ja/docs/tasks/tools/install-kubectl/)（接続先の設定をminikubeにする
 * [skaffoldのインストール](https://skaffold.dev/docs/install/)
 * マニフェストファイルの配置
-[nautible-app-customer-manifest](https://github.com/nautible/nautible-app-customer-manifest)をnautible-app-customerプロジェクトと同一階層に配置する(git clone)。
+[nautible-app-ms-customer-manifest](https://github.com/nautible/nautible-app-ms-customer-manifest)をnautible-app-ms-customerプロジェクトと同一階層に配置する(git clone)。
 

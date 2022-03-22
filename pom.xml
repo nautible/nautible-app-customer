@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>jp.co.ogis-ri.nautible.app</groupId>
-  <artifactId>nautible-app-customer-parent</artifactId>
+  <artifactId>nautible-app-ms-customer-parent</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <properties>
@@ -22,7 +22,7 @@
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     <openapi.generator.maven.plugin.version>5.0.0</openapi.generator.maven.plugin.version>
     <nautible.app.customer.groupId>jp.co.ogis-ri.nautible.app</nautible.app.customer.groupId>
-    <nautible.app.customer.name>nautible-app-customer</nautible.app.customer.name>
+    <nautible.app.customer.name>nautible-app-ms-customer</nautible.app.customer.name>
     <nautible.app.customer.version>1.0.0-SNAPSHOT</nautible.app.customer.version>
     <jandex.maven.plugin.version>1.1.0</jandex.maven.plugin.version>
   </properties>
@@ -110,26 +110,26 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <modules>
-        <module>nautible-app-customer-core</module>
-        <module>nautible-app-customer-aws</module>
-        <module>nautible-app-customer-azure</module>
-        <module>nautible-app-customer-build</module>
+        <module>nautible-app-ms-customer-core</module>
+        <module>nautible-app-ms-customer-aws</module>
+        <module>nautible-app-ms-customer-azure</module>
+        <module>nautible-app-ms-customer-build</module>
       </modules>
     </profile>
     <profile>
       <id>aws</id>
       <modules>
-        <module>nautible-app-customer-core</module>
-        <module>nautible-app-customer-aws</module>
-        <module>nautible-app-customer-build</module>
+        <module>nautible-app-ms-customer-core</module>
+        <module>nautible-app-ms-customer-aws</module>
+        <module>nautible-app-ms-customer-build</module>
       </modules>
     </profile>
     <profile>
       <id>azure</id>
       <modules>
-        <module>nautible-app-customer-core</module>
-        <module>nautible-app-customer-azure</module>
-        <module>nautible-app-customer-build</module>
+        <module>nautible-app-ms-customer-core</module>
+        <module>nautible-app-ms-customer-azure</module>
+        <module>nautible-app-ms-customer-build</module>
       </modules>
     </profile>
   </profiles>

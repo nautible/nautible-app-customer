@@ -2,51 +2,42 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>nautible-app-customer-aws</artifactId>
+  <artifactId>nautible-app-ms-customer-build</artifactId>
+
   <properties>
   </properties>
 
   <parent>
     <groupId>jp.co.ogis-ri.nautible.app</groupId>
-    <artifactId>nautible-app-customer-parent</artifactId>
+    <artifactId>nautible-app-ms-customer-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
   <dependencies>
-    <dependency>
-      <groupId>${nautible.app.customer.groupId}</groupId>
-      <artifactId>${nautible.app.customer.name}-core</artifactId>
-    </dependency>
-    <!-- struct -->
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.mapstruct</groupId>
-      <artifactId>mapstruct-processor</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <!-- dynamodb -->
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-amazon-dynamodb</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>url-connection-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>netty-nio-client</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>software.amazon.awssdk</groupId>
-      <artifactId>dynamodb-enhanced</artifactId>
-    </dependency>
   </dependencies>
 
   <profiles>
+    <profile>
+      <id>aws</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <dependencies>
+        <dependency>
+          <groupId>${nautible.app.customer.groupId}</groupId>
+          <artifactId>${nautible.app.customer.name}-aws</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
+    <profile>
+      <id>azure</id>
+      <dependencies>
+        <dependency>
+          <groupId>${nautible.app.customer.groupId}</groupId>
+          <artifactId>${nautible.app.customer.name}-azure</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
     <profile>
       <id>native</id>
       <activation>
@@ -99,18 +90,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <groupId>org.jboss.jandex</groupId>
-        <artifactId>jandex-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>make-index</id>
-            <goals>
-              <goal>jandex</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
