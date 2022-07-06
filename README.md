@@ -32,3 +32,17 @@ Quarkusアプリケーション共通の内容については[こちら](https:/
 * マニフェストファイルの配置
 [nautible-app-ms-customer-manifest](https://github.com/nautible/nautible-app-ms-customer-manifest)をnautible-app-ms-customerプロジェクトと同一階層に配置する(git clone)。
 
+## サンプルアプリ利用手順
+
+### アプリケーション依存サービスの起動
+
+manifestリポジトリでマニフェストを適用する
+
+```bash
+kubectl apply -k overlays/(aws|azure)/local-dev/dependencies
+```
+### skaffoldによるアプリケーション起動
+
+```bash
+skaffold dev --profile=(aws|azure) --port-forward
+```
