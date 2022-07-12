@@ -116,7 +116,7 @@ jobs:
 
     - name: pull request
       id: pull-request
-      if: github.ref_name == 'develop'
+      if: github.ref_name == 'develop' || startsWith(github.ref_name, 'hotfix/')
       env:
         TOKEN: ${{ secrets.PAT }}
         TAG: update-image-feature-${{ github.sha }}
