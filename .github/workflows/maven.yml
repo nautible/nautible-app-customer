@@ -5,7 +5,7 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ "develop","feature/*","hotfix/*" ]
 
 jobs:
   build:
@@ -90,19 +90,46 @@ jobs:
         docker push $ACR_REGISTRY/$ACR_REPOSITORY:latest
         docker push $ACR_REGISTRY/$ACR_REPOSITORY:$IMAGE_TAG
 
-    - name: pull request
-      id: pull-request
+    - name: update feature branch image tag
+      id: update-feature-branch-image-tag
+      if: startsWith(github.ref_name, 'feature/')
       env:
-        token: ${{ secrets.PAT }}
-        tag: update-image-feature-${{ github.sha }}
+        TOKEN: ${{ secrets.PAT }}
+        BRANCH: ${{ github.ref_name }}
+        CURRENT_REPO: nautible-app-ms-customer
+        MANIFEST_REPO: nautible-app-ms-customer-manifest
       run: |
-        cd $GITHUB_WORKSPACE/nautible-app-ms-customer-manifest
-        git checkout -b $tag
-        sed -i 's/image: public.ecr.aws\/nautible\/nautible-app-ms-customer:\(.*\)/image: public.ecr.aws\/nautible\/nautible-app-ms-customer:'$IMAGE_TAG'/' ./overlays/aws/dev/customer-deploy.yaml 
-        sed -i 's/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-customer:\(.*\)/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/nautible-app-ms-customer:'$IMAGE_TAG'/' ./overlays/azure/dev/customer-deploy.yaml 
+        cd $GITHUB_WORKSPACE/$MANIFEST_REPO
+        curl -H "Accept: application/vnd.github+json" -H "Authorization: token $TOKEN" https://api.github.com/repos/nautible/$MANIFEST_REPO/branches/$BRANCH -o /dev/null -w '%{http_code}\n' -s
+        if [ '$http_code' != '200' ]; then
+          echo 'couldnt find remote branch. skip update manifest.'
+          exit 0
+        fi
+        git checkout $BRANCH
+        sed -i 's/image: public.ecr.aws\/nautible\/$CURRENT_REPO:\(.*\)/image: public.ecr.aws\/nautible\/$CURRENT_REPO:'$IMAGE_TAG'/' ./overlays/aws/dev/customer-deploy.yaml 
+        sed -i 's/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/$CURRENT_REPO:\(.*\)/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/$CURRENT_REPO:'$IMAGE_TAG'/' ./overlays/azure/dev/customer-deploy.yaml 
         git config user.name github-actions
         git config user.email github-actions@github.com
         git add .
         git commit -m "update manifest"
-        git push --set-upstream origin $tag
-        curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $token" "https://api.github.com/repos/nautible/nautible-app-ms-customer-manifest/pulls" -d '{"title": "new image deploy request", "head": "nautible:'$tag'", "base": "main"}'  -o /dev/null -w 'httpstatus:%{http_code}\n' -s
+        git push --set-upstream origin $BRANCH
+
+    - name: pull request
+      id: pull-request
+      if: github.ref_name == 'develop' || startsWith(github.ref_name, 'hotfix/')
+      env:
+        TOKEN: ${{ secrets.PAT }}
+        TAG: update-image-feature-${{ github.sha }}
+        CURRENT_REPO: nautible-app-ms-customer
+        MANIFEST_REPO: nautible-app-ms-customer-manifest
+      run: |
+        cd $GITHUB_WORKSPACE/$MANIFEST_REPO
+        git checkout -b $TAG
+        sed -i 's/image: public.ecr.aws\/nautible\/$CURRENT_REPO:\(.*\)/image: public.ecr.aws\/nautible\/$CURRENT_REPO:'$IMAGE_TAG'/' ./overlays/aws/dev/customer-deploy.yaml 
+        sed -i 's/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/$CURRENT_REPO:\(.*\)/image: ${{ secrets.AZURE_REGISTRY_LOGIN_SERVER }}\/$CURRENT_REPO:'$IMAGE_TAG'/' ./overlays/azure/dev/customer-deploy.yaml 
+        git config user.name github-actions
+        git config user.email github-actions@github.com
+        git add .
+        git commit -m "update manifest"
+        git push --set-upstream origin $TAG
+        curl -X POST -H "Accept: application/vnd.github.v3+json" -H "Authorization: token $TOKEN" "https://api.github.com/repos/nautible/$MANIFEST_REPO/pulls" -d '{"title": "new image deploy request", "head": "nautible:'$tag'", "base": "develop"}'  -o /dev/null -w 'httpstatus:%{http_code}\n' -s
