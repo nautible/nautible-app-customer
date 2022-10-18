@@ -3,7 +3,7 @@ package jp.co.ogis_ri.nautible.app.customer.outbound.cosmosdb;
 import org.bson.codecs.pojo.annotations.BsonId;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-import io.quarkus.mongodb.panache.MongoEntity;
+import io.quarkus.mongodb.panache.common.MongoEntity;
 
 /**
  * 顧客ドメイン

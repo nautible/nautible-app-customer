@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 //import org.eclipse.microprofile.opentracing.Traced;
 
 import io.grpc.stub.StreamObserver;
+import io.quarkus.grpc.GrpcService;
 import jp.co.ogis_ri.nautible.app.customer.api.grpc.CustomerServiceGrpc;
 import jp.co.ogis_ri.nautible.app.customer.api.grpc.Empty;
 import jp.co.ogis_ri.nautible.app.customer.api.grpc.GrpcCreateCustomerRequest;
@@ -27,6 +28,7 @@ import jp.co.ogis_ri.nautible.app.customer.domain.CustomerService;
  * gRPCのサービス。gRPCのエンドポイント。
  */
 @Singleton
+@GrpcService
 public class GrpcCustomerServiceImpl extends CustomerServiceGrpc.CustomerServiceImplBase {
 
     @Inject
