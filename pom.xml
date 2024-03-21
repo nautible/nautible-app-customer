@@ -13,6 +13,7 @@
     <maven.compiler.target>11</maven.compiler.target>
     <org.mapstruct.version>1.4.1.Final</org.mapstruct.version>
     <swagger-annotations.version>1.6.2</swagger-annotations.version>
+    <quarkus-opentelemetry.version>3.9.0</quarkus-opentelemetry.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus-plugin.version>2.13.0.Final</quarkus-plugin.version>
@@ -52,6 +53,11 @@
         <groupId>io.swagger</groupId>
         <artifactId>swagger-annotations</artifactId>
         <version>${swagger-annotations.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-opentelemetry</artifactId>
+        <version>${quarkus-opentelemetry.version}</version>
       </dependency>
       <dependency>
         <groupId>${nautible.app.customer.groupId}</groupId>
