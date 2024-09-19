@@ -75,7 +75,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
-        if: steps.login-aws.outcome == 'failure'
+        if: steps.login-aws.outcome == 'success'
 
       # Azure
       - name: pacakge with Maven for Azure
