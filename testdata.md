@@ -108,7 +108,6 @@ aws dynamodb put-item --table-name Customer --item '{ "Id": { "N": "1" }, "Addre
 Azure CosmosDBコンソール＞データエクスプローラー＞Stock選択＞NewShell
 以下を実行する
 ```
-db.Stock.insertMany([
 db.Customer.insertMany([
 {
   "_id": 1,
